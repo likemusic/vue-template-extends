@@ -13,7 +13,7 @@ module.exports = function (source, map) {
 
     this.callback(
         null,
-        `import bind from 'vue-slot-loader/bindRenders.js'
+        `import bind from 'vue-template-extends/bindRenders.js'
 
         const resultTemplateHtml = ${JSON.stringify(resultTemplateHtml)};
         const slotsHtml = ${JSON.stringify(slotsHtml)};
