@@ -8,11 +8,9 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
-    "vue": "^2.6.11"
-  },
-  "devDependencies": {
+    "jsdom": "^16.2.2",
     "loader-utils": "^2.0.0",
-    "vue-template-compiler": "^2.6.11",
-    "jsdom": "^16.2.2"
+    "vue": "^2.6.11",
+    "vue-template-compiler": "^2.6.11"
   }
 }
