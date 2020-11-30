@@ -1,6 +1,6 @@
 {
   "name": "vue-template-extends",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A loader that allows you to extend templates for SFC by overriding slots.",
   "main": "index.js",
   "repository": "https://github.com/likemusic/vue-template-extends.git",
