@@ -1,8 +1,9 @@
 const jsdom = require("jsdom");
 const {JSDOM} = jsdom;
-const defaulSlotName = 'default';
+const defaultSlotName = 'default';
+const replaceTemplatesSlotsContents = require("./replaceTemplatesSlotsContents");
 
-module.exports = function (baseTemplate, slotsContents) {
+function replaceSlotsContent(baseTemplate, slotsContents) {
     const frag = JSDOM.fragment(baseTemplate);
     const slots = frag.querySelectorAll('slot');
     const slotsLength = slots.length;
@@ -11,7 +12,7 @@ module.exports = function (baseTemplate, slotsContents) {
         let slot = slots.item(i);
         let slotAttributes = slot.attributes;
         let nameAttribute = slotAttributes.getNamedItem('name');
-        let slotName = nameAttribute ? nameAttribute.value : defaulSlotName;
+        let slotName = nameAttribute ? nameAttribute.value : defaultSlotName;
 
         if (slotsContents[slotName] === undefined) {
             continue;
@@ -20,5 +21,9 @@ module.exports = function (baseTemplate, slotsContents) {
         slot.innerHTML = slotsContents[slotName];
     }
 
+    replaceTemplatesSlotsContents(frag, slotsContents, replaceSlotsContent);
+
     return frag.firstElementChild.outerHTML;
 }
+
+module.exports = replaceSlotsContent;
