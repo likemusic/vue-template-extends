@@ -23,7 +23,7 @@ function getResultComponentTemplateHtmlByCustomBlocks(customBlocks, baseDir, loa
     const componentAbsoluteFilename = getComponentAbsoluteFilename(baseDir, relativeComponentPath);
     loaderContext.addDependency(componentAbsoluteFilename);
 
-    const baseTemplateHtml = getResultComponentTemplateHtmlRecursively(componentAbsoluteFilename);
+    const baseTemplateHtml = getResultComponentTemplateHtmlRecursively(componentAbsoluteFilename, loaderContext);
 
     const source = templateExtendsCustomBlocks.content;
     const slotsHtml = getSlotsContent(source);
