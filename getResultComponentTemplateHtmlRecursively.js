@@ -4,7 +4,7 @@ const path = require('path');
 const getSlotsContent = require('./getSlotsContents');
 const replaceSlotsContents = require('./replaceSlotsContent');
 
-function getResultComponentTemplateHtmlRecursively(componentFilename) {
+function getResultComponentTemplateHtmlRecursively(componentFilename, loaderContext) {
     const componentFileContent = fs.readFileSync(componentFilename).toString();
     const parsedComponent = compiler.parseComponent(componentFileContent);
 
@@ -13,14 +13,15 @@ function getResultComponentTemplateHtmlRecursively(componentFilename) {
 
     return parsedComponentTemplate
         ? parsedComponentTemplate.content
-        : getResultComponentTemplateHtmlByCustomBlocks(parsedComponent.customBlocks, baseDir);
+        : getResultComponentTemplateHtmlByCustomBlocks(parsedComponent.customBlocks, baseDir, loaderContext);
 }
 
-function getResultComponentTemplateHtmlByCustomBlocks(customBlocks, baseDir) {
+function getResultComponentTemplateHtmlByCustomBlocks(customBlocks, baseDir, loaderContext) {
     const templateExtendsCustomBlocks = getTemplateExtendsCustomBlock(customBlocks);
 
     const relativeComponentPath = templateExtendsCustomBlocks.attrs.base;
     const componentAbsoluteFilename = getComponentAbsoluteFilename(baseDir, relativeComponentPath);
+    loaderContext.addDependency(componentAbsoluteFilename);
 
     const baseTemplateHtml = getResultComponentTemplateHtmlRecursively(componentAbsoluteFilename);
 

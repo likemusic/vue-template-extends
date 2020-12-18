@@ -1,8 +1,8 @@
 {
   "name": "vue-template-extends",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A loader that allows you to extend templates for SFC by overriding slots.",
-  "keywords": ["vue", "template", "inherit", "extend", "override", "overload"],
+  "keywords": ["vue", "template", "inherit", "extend", "override", "overload", "webpack"],
   "main": "index.js",
   "repository": "https://github.com/likemusic/vue-template-extends.git",
   "author": "Valerij Ivashchenko <likemusicdev@gmail.com>",

@@ -7,7 +7,9 @@ module.exports = function (source, map) {
     const loaderContext = this;
 
     const sourceFilename = getBaseComponentFilenameByLoaderContext(loaderContext);
-    const baseTemplateResultHtml = getResultComponentTemplateHtmlRecursively(sourceFilename);
+    this.addDependency(sourceFilename);
+
+    const baseTemplateResultHtml = getResultComponentTemplateHtmlRecursively(sourceFilename, loaderContext);
     const slotsHtml = getSlotsContent(source);
     const resultTemplateHtml = replaceSlotsContents(baseTemplateResultHtml, slotsHtml);
 
