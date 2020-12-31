@@ -2,8 +2,6 @@
 
 The loader allows you to extend templates for SFC by overriding slots.
 
-**!!! WARNING !!! This loader currently in MVP-state and not ready for use in production.**
-
 ## Installation
 
 Install the loader by running:
