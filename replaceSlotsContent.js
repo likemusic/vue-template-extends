@@ -2,6 +2,7 @@ const jsdom = require("jsdom");
 const {JSDOM} = jsdom;
 const defaultSlotName = 'default';
 const replaceTemplatesSlotsContents = require("./replaceTemplatesSlotsContents");
+const getFragmentOuterHtml = require("./getFragmentOuterHtml");
 
 function replaceSlotsContent(baseTemplate, slotsContents) {
     const frag = JSDOM.fragment(baseTemplate);
@@ -23,7 +24,7 @@ function replaceSlotsContent(baseTemplate, slotsContents) {
 
     replaceTemplatesSlotsContents(frag, slotsContents, replaceSlotsContent);
 
-    return frag.firstElementChild.outerHTML;
+    return getFragmentOuterHtml(frag);
 }
 
 module.exports = replaceSlotsContent;
