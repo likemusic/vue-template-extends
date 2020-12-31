@@ -9,7 +9,7 @@ The loader allows you to extend templates for SFC by overriding slots.
 Install the loader by running:
 
 ```bash
-npm npm i --save-dev vue-template-extends
+npm npm i --save vue-template-extends
 ```
 
 Add loader to Webpack config in `module.rules`:
