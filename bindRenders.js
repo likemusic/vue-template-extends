@@ -1,3 +1,5 @@
+import Vue from 'vue';
+
 export default function ({options}, resultTemplateHtml, slotsHtml) {
     const template = Vue.compile(resultTemplateHtml);
 
