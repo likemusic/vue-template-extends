@@ -1,12 +1,11 @@
-const jsdom = require("jsdom");
-const {JSDOM} = jsdom;
+const {parseHTML} = require('linkedom');
 const defaultSlotName = 'default';
 
 module.exports = function (extendsContent) {
     // debugger;
-    const frag = JSDOM.fragment(extendsContent);
+    const {document} = parseHTML(extendsContent);
 
-    const children = frag.children;
+    const children = document.children;
     const childrenLength = children.length;
 
     const ret = {};

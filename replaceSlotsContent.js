@@ -1,12 +1,11 @@
-const jsdom = require("jsdom");
-const {JSDOM} = jsdom;
+const {parseHTML} = require('linkedom');
 const defaultSlotName = 'default';
 const replaceTemplatesSlotsContents = require("./replaceTemplatesSlotsContents");
 const getFragmentOuterHtml = require("./getFragmentOuterHtml");
 
 function replaceSlotsContent(baseTemplate, slotsContents) {
-    const frag = JSDOM.fragment(baseTemplate);
-    const slots = frag.querySelectorAll('slot');
+    const {document} = parseHTML(baseTemplate);
+    const slots = document.querySelectorAll('slot');
     const slotsLength = slots.length;
 
     for (let i = 0; i < slotsLength; i++) {
@@ -22,9 +21,9 @@ function replaceSlotsContent(baseTemplate, slotsContents) {
         slot.innerHTML = slotsContents[slotName];
     }
 
-    replaceTemplatesSlotsContents(frag, slotsContents, replaceSlotsContent);
+    replaceTemplatesSlotsContents(document, slotsContents, replaceSlotsContent);
 
-    return getFragmentOuterHtml(frag);
+    return getFragmentOuterHtml(document);
 }
 
 module.exports = replaceSlotsContent;
