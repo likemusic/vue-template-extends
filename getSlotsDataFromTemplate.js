@@ -1,5 +1,5 @@
 const {parseHTML} = require('linkedom');
-const defaults = require('defaults');
+const defaults = require('./defaults');
 
 module.exports = function (baseTemplate, baseSlotsData = {}) {
     // debugger;
