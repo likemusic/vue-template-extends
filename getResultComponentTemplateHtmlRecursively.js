@@ -2,9 +2,10 @@ const fs = require('fs');
 const compiler = require("vue-template-compiler");
 const path = require('path');
 const getSlotsContent = require('./getSlotsContents');
-const replaceSlotsContents = require('./replaceSlotsContent');
+const processSlots = require('./processSlots');
+const getSlotsDataFromTemplate = require('./getSlotsDataFromTemplate');
 
-function getResultComponentTemplateHtmlRecursively(componentFilename, loaderContext) {
+function getResultComponentTemplateHtmlRecursively(componentFilename, loaderContext = null) {
     const componentFileContent = fs.readFileSync(componentFilename).toString();
     const parsedComponent = compiler.parseComponent(componentFileContent);
 
@@ -12,23 +13,26 @@ function getResultComponentTemplateHtmlRecursively(componentFilename, loaderCont
     const baseDir = path.dirname(componentFilename);
 
     return parsedComponentTemplate
-        ? parsedComponentTemplate.content
+        ? [parsedComponentTemplate.content, getSlotsDataFromTemplate(parsedComponentTemplate.content)]
         : getResultComponentTemplateHtmlByCustomBlocks(parsedComponent.customBlocks, baseDir, loaderContext);
 }
 
 function getResultComponentTemplateHtmlByCustomBlocks(customBlocks, baseDir, loaderContext) {
-    const templateExtendsCustomBlocks = getTemplateExtendsCustomBlock(customBlocks);
+    const templateExtendsCustomBlock = getTemplateExtendsCustomBlock(customBlocks);
 
-    const relativeComponentPath = templateExtendsCustomBlocks.attrs.base;
+    const relativeComponentPath = templateExtendsCustomBlock.attrs.base;
     const componentAbsoluteFilename = getComponentAbsoluteFilename(baseDir, relativeComponentPath);
-    loaderContext.addDependency(componentAbsoluteFilename);
 
-    const baseTemplateHtml = getResultComponentTemplateHtmlRecursively(componentAbsoluteFilename, loaderContext);
+    if (loaderContext) {
+        loaderContext.addDependency(componentAbsoluteFilename);
+    }
 
-    const source = templateExtendsCustomBlocks.content;
-    const slotsHtml = getSlotsContent(source);
+    const [baseTemplateHtml, baseSlotsData] = getResultComponentTemplateHtmlRecursively(componentAbsoluteFilename, loaderContext);
 
-    return replaceSlotsContents(baseTemplateHtml, slotsHtml);
+    const source = templateExtendsCustomBlock.content;
+    const slotsHtml = getSlotsContent(source, baseSlotsData);
+
+    return [processSlots(baseTemplateHtml, slotsHtml), slotsHtml];
 }
 
 function getTemplateExtendsCustomBlock(customBlocks) {

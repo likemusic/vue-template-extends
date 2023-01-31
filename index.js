@@ -1,5 +1,5 @@
 const getSlotsContent = require('./getSlotsContents');
-const replaceSlotsContents = require('./replaceSlotsContent');
+const processSlots = require('./processSlots');
 const getBaseComponentFilenameByLoaderContext = require('./getBaseComponentFilenameByLoaderContext')
 const getResultComponentTemplateHtmlRecursively = require('./getResultComponentTemplateHtmlRecursively')
 
@@ -9,16 +9,16 @@ module.exports = function (source, map) {
     const sourceFilename = getBaseComponentFilenameByLoaderContext(loaderContext);
     this.addDependency(sourceFilename);
 
-    const baseTemplateResultHtml = getResultComponentTemplateHtmlRecursively(sourceFilename, loaderContext);
-    const slotsHtml = getSlotsContent(source);
-    const resultTemplateHtml = replaceSlotsContents(baseTemplateResultHtml, slotsHtml);
+    const [baseTemplateResultHtml, baseSlotsData] = getResultComponentTemplateHtmlRecursively(sourceFilename, loaderContext);
+    const slotsData = getSlotsContent(source, baseTemplateResultHtml);
+    const resultTemplateHtml = processSlots(baseTemplateResultHtml, slotsData, baseSlotsData);
 
     this.callback(
         null,
         `import bindRenders from 'vue-template-extends/bindRenders';
 
         const resultTemplateHtml = ${JSON.stringify(resultTemplateHtml)};
-        const slotsHtml = ${JSON.stringify(slotsHtml)};
+        const slotsHtml = ${JSON.stringify(slotsData)};
 
         export default function (Component) {
             bindRenders(

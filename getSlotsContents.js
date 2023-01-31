@@ -1,7 +1,7 @@
 const {parseHTML} = require('linkedom');
 const defaultSlotName = 'default';
 
-module.exports = function (extendsContent) {
+module.exports = function (extendsContent, baseSlotsData = {}) {
     // debugger;
     const {document} = parseHTML(extendsContent);
 
@@ -19,11 +19,20 @@ module.exports = function (extendsContent) {
         }
 
         let childAttributes = child.attributes;
-        let nameAttributes = childAttributes.getNamedItem('name');
-        let slotName = nameAttributes ? nameAttributes.value : defaultSlotName;
 
-        ret[slotName] = child.innerHTML;
+        // name
+        let nameAttribute = childAttributes.getNamedItem('name');
+        let slotName = nameAttribute ? nameAttribute.value : defaultSlotName;
+
+        // replace
+        let replaceAttribute = childAttributes.getNamedItem('replace');
+        let isReplace = Boolean(replaceAttribute && (replaceAttribute.value !== 'false'));
+
+        ret[slotName] = {
+            content: child.innerHTML,
+            isReplace: isReplace,
+        };
     }
 
-    return ret;
+    return Object.assign({}, baseSlotsData, ret);
 }
