@@ -4,8 +4,8 @@ module.exports = function (fragment, slotsContents, replaceSlotsContent) {
 
     for (let i = 0; i < templatesLength; i++) {
         let template = templates.item(i);
-        let templateInnerHtml = template.innerHTML;
+        // let templateInnerHtml = template.innerHTML;
 
-        template.innerHTML = replaceSlotsContent(templateInnerHtml, slotsContents);
+        template.innerHTML = replaceSlotsContent(template, slotsContents);
     }
 }
