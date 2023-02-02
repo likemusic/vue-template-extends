@@ -10,7 +10,7 @@ module.exports = function (source, map) {
     this.addDependency(sourceFilename);
 
     const [baseTemplateResultHtml, baseSlotsData] = getResultComponentTemplateHtmlRecursively(sourceFilename, loaderContext);
-    const slotsData = getSlotsContent(source, baseTemplateResultHtml);
+    const slotsData = getSlotsContent(source, baseSlotsData);
     const resultTemplateHtml = processSlots(baseTemplateResultHtml, slotsData, baseSlotsData);
 
     this.callback(
