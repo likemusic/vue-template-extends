@@ -32,7 +32,9 @@ function getResultComponentTemplateHtmlByCustomBlocks(customBlocks, baseDir, loa
     const source = templateExtendsCustomBlock.content;
     const slotsHtml = getSlotsContent(source, baseSlotsData);
 
-    return [processSlots(baseTemplateHtml, slotsHtml), slotsHtml];
+    const resultHtml = processSlots(baseTemplateHtml, slotsHtml, baseSlotsData);
+
+    return [resultHtml, getSlotsDataFromTemplate(resultHtml, slotsHtml)];
 }
 
 function getTemplateExtendsCustomBlock(customBlocks) {
