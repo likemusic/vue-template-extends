@@ -1,6 +1,5 @@
 const replaceTemplatesSlotsContents = require("../replaceTemplatesSlotsContents");
 const defaults = require("../defaults");
-const replaceNodeWithHtml = require("./replaceNodeWithHtml");
 
 function replaceParentSlots(document, baseSlotsData) {
     const slots = document.querySelectorAll('slot[parent]');
@@ -31,7 +30,7 @@ function replaceParentSlots(document, baseSlotsData) {
             throw new Error(`Parent doesn't have slot with name: "${slotData}".`);
         }
 
-        replaceNodeWithHtml(document, slot, slotData.content);
+        slot.innerHTML = slotData.content;
     }
 
     replaceTemplatesSlotsContents(document, baseSlotsData, replaceParentSlots);
